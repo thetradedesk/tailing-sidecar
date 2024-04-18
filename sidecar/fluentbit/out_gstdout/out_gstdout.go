@@ -3,6 +3,7 @@ package main
 import (
 	"C"
 	"fmt"
+	"path/filepath"
 	"unsafe"
 
 	"github.com/fluent/fluent-bit-go/output"
@@ -39,9 +40,15 @@ func FLBPluginFlush(data unsafe.Pointer, length C.int, tag *C.char) int {
 			break
 		}
 
-		// Print values
-		for _, v := range record {
-			fmt.Printf("%s\n", v)
+		// Print logs in custom format
+		filenameBytes, ok1 := record["filename"].([]uint8)
+		logBytes, ok2 := record["log"].([]uint8)
+		if ok1 && ok2 {
+			filename := filepath.Base(string(filenameBytes))
+			logMessage := string(logBytes)
+			fmt.Printf("%s: %s", filename, logMessage)
+		} else {
+			fmt.Println("Error: Unable to retrieve 'filename' or 'log' from record")
 		}
 	}
 
