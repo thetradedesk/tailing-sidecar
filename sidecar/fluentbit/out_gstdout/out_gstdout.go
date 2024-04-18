@@ -46,7 +46,7 @@ func FLBPluginFlush(data unsafe.Pointer, length C.int, tag *C.char) int {
 		if ok1 && ok2 {
 			filename := filepath.Base(string(filenameBytes))
 			logMessage := string(logBytes)
-			fmt.Printf("%s: %s\n", filename, logMessage)
+			fmt.Printf("%s: %s", filename, logMessage)
 		} else {
 			fmt.Println("Error: Unable to retrieve 'filename' or 'log' from record")
 		}
