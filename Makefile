@@ -19,10 +19,6 @@ yamllint:
 	yamllint -c .yamllint.yaml \
 		operator/examples/
 
-login-ecr:
-	aws ecr-public get-login-password --region us-east-1 \
-	| docker login --username AWS --password-stdin $(ECR_URL)
-
 .PHONY: e2e
 e2e: IMG="registry.localhost:5000/sumologic/tailing-sidecar-operator:test"
 e2e: TAILING_SIDECAR_IMG = "registry.localhost:5000/sumologic/sidecar:test"

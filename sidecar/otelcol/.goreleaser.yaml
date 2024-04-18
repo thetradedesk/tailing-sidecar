@@ -11,7 +11,7 @@ version: 1
 project_name: otelcol-sidecar
 
 env:
-  - GHCR_IMAGE={{ if index .Env "GHCR_IMAGE" }}{{ .Env.GHCR_IMAGE }}{{ else }}ghcr.io/sumologic/tailing-sidecar-otel{{ end }}
+  - GHCR_IMAGE={{ if index .Env "GHCR_IMAGE" }}{{ .Env.GHCR_IMAGE }}{{ else }}ghcr.io/thetradedesk/tailing-sidecar-otel{{ end }}
 
 before:
   hooks:
