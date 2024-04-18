@@ -12,7 +12,6 @@ project_name: otelcol-sidecar
 
 env:
   - GHCR_IMAGE={{ if index .Env "GHCR_IMAGE" }}{{ .Env.GHCR_IMAGE }}{{ else }}ghcr.io/sumologic/tailing-sidecar-otel{{ end }}
-  - ECR_IMAGE={{ if index .Env "ECR_IMAGE" }}{{ .Env.ECR_IMAGE }}{{ else }}public.ecr.aws/sumologic/tailing-sidecar-otel{{ end }}
 
 before:
   hooks:
@@ -34,8 +33,6 @@ archives:
 
 dockers:
   - image_templates:
-      - "{{ .Env.ECR_IMAGE }}:{{ .Version }}-amd64"
-      - "{{ .Env.ECR_IMAGE }}:main-amd64"
       - "{{ .Env.GHCR_IMAGE }}:{{ .Version }}-amd64"
       - "{{ .Env.GHCR_IMAGE }}:main-amd64"
     use: buildx
@@ -45,8 +42,6 @@ dockers:
     extra_files:
       - "config.yaml"
   - image_templates:
-      - "{{ .Env.ECR_IMAGE }}:{{ .Version }}-arm64"
-      - "{{ .Env.ECR_IMAGE }}:main-arm64"
       - "{{ .Env.GHCR_IMAGE }}:{{ .Version }}-arm64"
       - "{{ .Env.GHCR_IMAGE }}:main-arm64"
     use: buildx
@@ -65,14 +60,6 @@ docker_manifests:
     image_templates:
       - "{{ .Env.GHCR_IMAGE }}:main-amd64"
       - "{{ .Env.GHCR_IMAGE }}:main-arm64"
-  - name_template: "{{ .Env.ECR_IMAGE }}:{{ .Version }}"
-    image_templates:
-      - "{{ .Env.ECR_IMAGE }}:{{ .Version }}-amd64"
-      - "{{ .Env.ECR_IMAGE }}:{{ .Version }}-arm64"
-  - name_template: "{{ .Env.ECR_IMAGE }}:main"
-    image_templates:
-      - "{{ .Env.ECR_IMAGE }}:main-amd64"
-      - "{{ .Env.ECR_IMAGE }}:main-arm64"
 
 # we only want to build and publish docker images
 release:
